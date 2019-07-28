@@ -33,12 +33,14 @@ def my_post():
         post = request.form['post']
         title_error = ""
         post_error = ""
-
+        valid = True
         if title == "":
             title_error = "Please enter a title."
+            valid = False
         if post == "":
             post_error = "Please enter a post."
-        if title == "" or post == "":   
+            valid = False
+        if valid == False:   
             return render_template('post_entry_page.html', title_error=title_error, post_error=post_error, title=title, post=post)
         else:
             new_entry = Entry(title, post)
@@ -51,6 +53,8 @@ def my_post():
         id = int(request.args.get("id"))
         saved_entry = Entry.query.get(id)
         return render_template('saved_entry.html', saved_entry=saved_entry)
+
+
 if __name__ == '__main__':
     app.run()
 
